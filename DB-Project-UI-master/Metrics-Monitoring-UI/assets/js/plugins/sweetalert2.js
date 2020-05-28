@@ -1,7 +1,4 @@
-/*!
- * sweetalert2 v7.24.1
- * Released under the MIT License.
- */
+
 (function(global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
     typeof define === 'function' && define.amd ? define(factory) :
@@ -14,16 +11,6 @@
   } : function(obj) {
     return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
   };
-
-
-
-
-
-
-
-
-
-
 
   var classCallCheck = function(instance, Constructor) {
     if (!(instance instanceof Constructor)) {

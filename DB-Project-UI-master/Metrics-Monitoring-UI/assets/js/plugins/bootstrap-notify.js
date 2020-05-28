@@ -1,41 +1,13 @@
-/*
-
-
-
-     Creative Tim Modifications
-
-     Lines: 236 was changed from top: 5px to top: 50% and we added margin-top: -9px. In this way the close button will be aligned vertically
-     Line:219 - modified when the icon is set, we add the class "alert-with-icon", so there will be enough space for the icon.
-	 Lines: 179/222 - class() was changed to html() so we can add the Material Design Icons
-
-
-
-*/
-
-
-/*
- * Project: Bootstrap Notify = v3.1.5
- * Description: Turns standard Bootstrap alerts into "Growl-like" notifications.
- * Author: Mouse0270 aka Robert McIntosh
- * License: MIT License
- * Website: https://github.com/mouse0270/bootstrap-growl
- */
-
-/* global define:false, require: false, jQuery:false */
-
 (function(factory) {
   if (typeof define === 'function' && define.amd) {
-    // AMD. Register as an anonymous module.
     define(['jquery'], factory);
   } else if (typeof exports === 'object') {
-    // Node/CommonJS
+    
     factory(require('jquery'));
   } else {
-    // Browser globals
     factory(jQuery);
   }
 }(function($) {
-  // Create the defaults once
   var defaults = {
     element: 'body',
     position: null,
@@ -83,15 +55,11 @@
       var title = $el.find('[data-notify="title"]').text().trim();
       var message = $el.find('[data-notify="message"]').html().trim();
 
-      // The input string might be different than the actual parsed HTML string!
-      // (<br> vs <br /> for example)
-      // So we have to force-parse this as HTML here!
       var isSameTitle = title === $("<div>" + notification.settings.content.title + "</div>").html().trim();
       var isSameMsg = message === $("<div>" + notification.settings.content.message + "</div>").html().trim();
       var isSameType = $el.hasClass('alert-' + notification.settings.type);
 
       if (isSameTitle && isSameMsg && isSameType) {
-        //we found the dupe. Set the var and stop checking.
         isDupe = true;
       }
       return !isDupe;
@@ -101,7 +69,6 @@
   }
 
   function Notify(element, content, options) {
-    // Setup Content of Notify
     var contentObj = {
       content: {
         message: typeof content === 'object' ? content.message : content,

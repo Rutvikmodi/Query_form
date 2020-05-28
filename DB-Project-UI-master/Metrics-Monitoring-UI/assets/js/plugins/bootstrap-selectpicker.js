@@ -1,20 +1,10 @@
-/*!
- * Bootstrap-select v1.13.1 (https://developer.snapappointments.com/bootstrap-select)
- *
- * Copyright 2012-2018 SnapAppointments, LLC
- * Licensed under MIT (https://github.com/snapappointments/bootstrap-select/blob/master/LICENSE)
- */
-
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
-    // AMD. Register as an anonymous module unless amdModuleId is set
     define(["jquery"], function(a0) {
       return (factory(a0));
     });
   } else if (typeof module === 'object' && module.exports) {
-    // Node. Does not work with strict CommonJS, but
-    // only CommonJS-like environments that support module.exports,
-    // like Node.
+    
     module.exports = factory(require("jquery"));
   } else {
     factory(root["jQuery"]);
@@ -28,8 +18,6 @@
 
     testElement.classList.toggle('c3', false);
 
-    // Polyfill for IE 10 and Firefox <24, where classList.toggle does not
-    // support the second argument.
     if (testElement.classList.contains('c3')) {
       var _toggle = DOMTokenList.prototype.toggle;
 
@@ -42,19 +30,15 @@
       };
     }
 
-    // shallow array comparison
     function isEqual(array1, array2) {
       return array1.length === array2.length && array1.every(function(element, index) {
         return element === array2[index];
       });
     };
 
-    //<editor-fold desc="Shims">
     if (!String.prototype.startsWith) {
       (function() {
-        'use strict'; // needed to support `apply`/`call` with `undefined`/`null`
         var defineProperty = (function() {
-          // IE 8 only supports `Object.defineProperty` on DOM elements
           try {
             var object = {};
             var $defineProperty = Object.defineProperty;
@@ -75,13 +59,13 @@
           var searchString = String(search);
           var searchLength = searchString.length;
           var position = arguments.length > 1 ? arguments[1] : undefined;
-          // `ToInteger`
+          
           var pos = position ? Number(position) : 0;
-          if (pos != pos) { // better `isNaN`
+          if (pos != pos) { 
             pos = 0;
           }
           var start = Math.min(Math.max(pos, 0), stringLength);
-          // Avoid the `indexOf` call if no match is possible
+
           if (searchLength + start > stringLength) {
             return false;
           }
@@ -107,22 +91,17 @@
 
     if (!Object.keys) {
       Object.keys = function(
-        o, // object
-        k, // key
-        r // result array
+        o, 
+        k, 
+        r 
       ) {
-        // initialize object and result
         r = [];
-        // iterate over object keys
         for (k in o)
-          // fill result array with non-prototypical keys
           r.hasOwnProperty.call(o, k) && r.push(k);
-        // return result
         return r;
       };
     }
 
-    // much faster than $.val()
     function getSelectValues(select) {
       var result = [];
       var options = select && select.options;
@@ -143,9 +122,6 @@
       return result;
     }
 
-    // set data-selected on select element if the value has been programmatically selected
-    // prior to initialization of bootstrap-select
-    // * consider removing or replacing an alternative method *
     var valHooks = {
       useDefault: false,
       _set: $.valHooks.select.set
@@ -172,29 +148,25 @@
       var el = this[0],
         event;
 
-      if (el.dispatchEvent) { // for modern browsers & IE9+
+      if (el.dispatchEvent) { 
         if (EventIsSupported) {
-          // For modern browsers
           event = new Event(eventName, {
             bubbles: true
           });
         } else {
-          // For IE since it doesn't support Event constructor
           event = document.createEvent('Event');
           event.initEvent(eventName, true, false);
         }
 
         el.dispatchEvent(event);
-      } else if (el.fireEvent) { // for IE8
+      } else if (el.fireEvent) {
         event = document.createEventObject();
         event.eventType = eventName;
         el.fireEvent('on' + eventName, event);
       } else {
-        // fall back to jQuery.trigger
         this.trigger(eventName);
       }
     };
-    //</editor-fold>
 
     function stringSearch(li, searchString, method, normalize) {
       var stringTypes = [
@@ -211,7 +183,6 @@
         if (string) {
           string = string.toString();
 
-          // Strip HTML tags. This isn't perfect, but it's much faster than any other method
           if (stringType === 'content') {
             string = string.replace(/<[^>]+>/g, '');
           }
@@ -236,12 +207,6 @@
       return parseInt(value, 10) || 0;
     }
 
-    /**
-     * Remove all diatrics from the given text.
-     * @access private
-     * @param {String} text
-     * @returns {String}
-     */
     function normalizeToBase(text) {
       var rExps = [{
           re: /[\xC0-\xC6]/g,
@@ -303,7 +268,6 @@
     }
 
 
-    // List of HTML entities for escaping.
     var escapeMap = {
       '&': '&amp;',
       '<': '&lt;',
@@ -322,12 +286,10 @@
       '&#x60;': '`'
     };
 
-    // Functions for escaping and unescaping strings to/from HTML interpolation.
     var createEscaper = function(map) {
       var escaper = function(match) {
         return map[match];
       };
-      // Regexes for identifying a key that needs to be escaped.
       var source = '(?:' + Object.keys(map).join('|') + ')';
       var testRegexp = RegExp(source);
       var replaceRegexp = RegExp(source, 'g');
@@ -339,12 +301,6 @@
 
     var htmlEscape = createEscaper(escapeMap);
     var htmlUnescape = createEscaper(unescapeMap);
-
-    /**
-     * ------------------------------------------------------------------------
-     * Constants
-     * ------------------------------------------------------------------------
-     */
 
     var keyCodeMap = {
       32: ' ',
@@ -435,7 +391,6 @@
     var Selectpicker = function(element, options) {
       var that = this;
 
-      // bootstrap-select has been initialized - revert valHooks.select.set back to its original function
       if (!valHooks.useDefault) {
         $.valHooks.select.set = valHooks._set;
         valHooks.useDefault = true;
@@ -448,8 +403,6 @@
       this.options = options;
       this.selectpicker = {
         main: {
-          // store originalIndex (key) and newIndex (value) in this.selectpicker.main.map.newIndex for fast accessibility
-          // allows us to do this.main.elements[this.selectpicker.main.map.newIndex[index]] to select an element based on the originalIndex
           map: {
             newIndex: {},
             originalIndex: {}
@@ -457,7 +410,7 @@
         },
         current: {
           map: {}
-        }, // current changes if a search is in progress
+        }, 
         search: {
           map: {}
         },
@@ -473,19 +426,15 @@
           }
         }
       };
-      // If we have no title yet, try to pull it from the html title attribute (jQuery doesnt' pick it up as it's not a
-      // data-attribute)
       if (this.options.title === null) {
         this.options.title = this.$element.attr('title');
       }
 
-      // Format window padding
       var winPad = this.options.windowPadding;
       if (typeof winPad === 'number') {
         this.options.windowPadding = [winPad, winPad, winPad, winPad];
       }
 
-      //Expose public methods
       this.val = Selectpicker.prototype.val;
       this.render = Selectpicker.prototype.render;
       this.refresh = Selectpicker.prototype.refresh;
@@ -502,7 +451,6 @@
 
     Selectpicker.VERSION = '1.13.1';
 
-    // part of this is duplicated in i18n/defaults-en_US.js. Make sure to update both.
     Selectpicker.DEFAULTS = {
       noneSelectedText: 'Nothing selected',
       noneResultsText: 'No results matched {0}',
@@ -599,11 +547,9 @@
         } else {
           this.$element.on('hide.bs.select', function() {
             if (that.isVirtual()) {
-              // empty menu on close
               var menuInner = that.$menuInner[0],
                 emptyMenu = menuInner.firstChild.cloneNode(false);
 
-              // replace the existing UL with an empty one - this is faster than $.empty() or innerHTML = ''
               menuInner.replaceChild(emptyMenu, menuInner.firstChild);
               menuInner.scrollTop = 0;
             }
@@ -637,11 +583,10 @@
             that.$element.on({
               'shown.bs.select': function() {
                 that.$element
-                  .val(that.$element.val()) // set the value to hide the validation message in Chrome when menu is opened
+                  .val(that.$element.val()) 
                   .off('shown.bs.select');
               },
               'rendered.bs.select': function() {
-                // if select is no longer invalid, remove the bs-invalid class
                 if (this.validity.valid) that.$button.removeClass('bs-invalid');
                 that.$element.off('rendered.bs.select');
               }
@@ -660,11 +605,9 @@
       },
 
       createDropdown: function() {
-        // Options
-        // If we are multiple or showTick option is set, then add the show-tick class
         var showTick = (this.multiple || this.options.showTick) ? ' show-tick' : '',
           autofocus = this.autofocus ? ' autofocus' : '';
-        // Elements
+        
         var header = this.options.header ? '<div class="' + classNames.POPOVERHEADER + '"><button type="button" class="close" aria-hidden="true">&times;</button>' + this.options.header + '</div>' : '';
         var searchbox = this.options.liveSearch ?
           '<div class="bs-searchbox">' +
@@ -792,7 +735,6 @@
           that.selectpicker.view.scrollTop = scrollTop;
 
           if (isVirtual === true) {
-            // if an option that is encountered that is wider than the current menu width, update the menu width accordingly
             if (that.sizeInfo.hasScrollBar && that.$menu[0].offsetWidth > that.sizeInfo.totalMenuWidth) {
               that.sizeInfo.menuWidth = that.$menu[0].offsetWidth;
               that.sizeInfo.totalMenuWidth = that.sizeInfo.menuWidth + that.sizeInfo.scrollBarWidth;
@@ -800,8 +742,8 @@
             }
           }
 
-          chunkSize = Math.ceil(that.sizeInfo.menuInnerHeight / that.sizeInfo.liHeight * 1.5); // number of options in a chunk
-          chunkCount = Math.round(size / chunkSize) || 1; // number of chunks
+          chunkSize = Math.ceil(that.sizeInfo.menuInnerHeight / that.sizeInfo.liHeight * 1.5); 
+          chunkCount = Math.round(size / chunkSize) || 1; 
 
           for (var i = 0; i < chunkCount; i++) {
             var end_of_chunk = (i + 1) * chunkSize;
@@ -826,7 +768,6 @@
 
           prevPositions = [that.selectpicker.view.position0, that.selectpicker.view.position1];
 
-          // always display previous, current, and next chunks
           firstChunk = Math.max(0, currentChunk - 1);
           lastChunk = Math.min(chunkCount - 1, currentChunk + 1);
 
@@ -866,12 +807,8 @@
 
             that.setOptionStatus();
 
-            // if searching, check to make sure the list has actually been updated before updating DOM
-            // this prevents unnecessary repaints
             if (isSearching || (isVirtual === false && init)) menuIsDifferent = !isEqual(previousElements, that.selectpicker.view.visibleElements);
 
-            // if virtual scroll is disabled and not searching,
-            // menu should never need to be updated more than once
             if ((init || isVirtual === true) && menuIsDifferent) {
               var menuInner = that.$menuInner[0],
                 menuFragment = document.createDocumentFragment(),
@@ -880,7 +817,6 @@
                 marginBottom,
                 elements = isVirtual === true ? that.selectpicker.view.visibleElements : that.selectpicker.current.elements;
 
-              // replace the existing UL with an empty one - this is faster than $.empty()
               menuInner.replaceChild(emptyMenu, menuInner.firstChild);
 
               for (var i = 0, visibleElementsLen = elements.length; i < visibleElementsLen; i++) {
@@ -941,7 +877,7 @@
           mainData = [],
           optID = 0,
           headerIndex = 0,
-          liIndex = -1; // increment liIndex whenever a new <li> element is created to ensure newIndex is correct
+          liIndex = -1; 
 
         if (!this.selectpicker.view.titleOption) this.selectpicker.view.titleOption = document.createElement('option');
 
